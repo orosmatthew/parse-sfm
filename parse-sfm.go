@@ -73,6 +73,10 @@ type Pose struct {
 	} `json:"transform"`
 }
 
+type Output struct {
+	Data []Pose `json:"data"`
+}
+
 func main() {
 
 	args := os.Args
@@ -94,7 +98,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	var output []Pose
+	var output Output
 	for _, view := range sfmData.Views {
 		frame, err := strconv.Atoi(view.FrameId)
 		if err != nil {
@@ -134,7 +138,7 @@ func main() {
 			pose.Transform.Center[i] = val
 		}
 
-		output = append(output, pose)
+		output.Data = append(output.Data, pose)
 	}
 
 	outputBytes, err := json.Marshal(output)
